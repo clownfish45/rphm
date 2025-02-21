@@ -49,7 +49,7 @@ beat = bool()
 menu1 = ["_GRAPHSTART_", "_COHEREBUTTON_", "_DELETE_", "_LOGOUT_"]
 menu2 = ["_READMODE_", "_GRAPHCANVAS_", "_GRAPH_", "_READING_", "_BACK_"]
 menu3 = ["_LOGIN1_", "_NEWUSER_", "_SIGNIN_", "_EXIT_"]
-menuSelect = ["_TEMPERATURE_", "_HEARTBEAT_", "_BLOODOXYGEN_", "_BACK_"]
+menuSelect = ["_TEMP_", "_HB_", "_BLOODOXYGEN_", "_SELBACK_"]
 menuai = ["_COHERE_", "_COHEREBACK_"]
 lastmenu = []
 
@@ -239,7 +239,7 @@ layout = [
 	[sg.InputText(key = "_LOGINPROMPT_", visible = False)],
 	[sg.Button("NEW USER", key = "_NEWUSER_", visible = False, size = 25), sg.Button("SIGN IN", key = "_SIGNIN_", visible = False, size = 25)],
 	[sg.Submit(key = "_LOGIN2_", size = 100, visible = False)],
-	[sg.Button("LIVE GRAPH", key = "_GRAPHSTART_", visible = False, size = 100)],
+	[sg.Button("Take a reading", key = "_GRAPHSTART_", visible = False, size = 100)],
 	[sg.Exit(key = "_EXIT_", size = 50, visible = False)],
 	[sg.Button("ASK AI", key = "_COHEREBUTTON_", visible = False, size = 100)],
 	[sg.Button("DELETE USER", key = "_DELETE_", visible = False, size = 100)],
@@ -247,7 +247,11 @@ layout = [
 	[sg.Graph(canvas_size=(40, 200), graph_bottom_left=(0, 0), graph_top_right=(8, 200), background_color = graphcol, key = "_GRAPHCANVAS_", visible = False), sg.Graph(GRAPH_SIZE, (0,0), GRAPH_SIZE, key="_GRAPH_", background_color = graphcol, visible = False),],
 	[sg.Button("GO BACK", key = "_BACK_", visible = False, size = 100)],
 	[sg.Text(coheretext, key = "_COHERE_", visible = False, auto_size_text = True, size = (700, 5))],
-	[sg.Button("GO BACK", key = "_COHEREBACK_", visible = False, size = 25), sg.Button("DIFFERENT reading", key = "_READING_", visible = False, size = 25)]
+	[sg.Button("GO BACK", key = "_COHEREBACK_", visible = False, size = 25), sg.Button("DIFFERENT reading", key = "_READING_", visible = False, size = 25)],
+	[sg.Button("temperature", key = "_TEMP_", visible = False, size = 100)],
+	[sg.Button("heart rate", key = "_HB_", visible = False, size = 100)],
+	[sg.Button("BLOOD OXYGEN", key = "_BLOODOXYGEN_", visible = False, size = 100)],
+	[sg.Button("BAck", key = "_SELBACK_", visible = False, size = 100)],
 	
 	
 ]

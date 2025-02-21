@@ -106,6 +106,10 @@ while True:							 # Event Loop
 				window["_LOGIN1_"].update("Created a new user!")
 				window.refresh()
 				vs.finishedTask = False
+				menu(menu1)
+				login = True
+				dbval = DDB.at("log").read()
+				userNum = vs.userNum
 			else:
 				vs.err = False
 				window["_LOGIN1_"].update("Could not create a user!")
@@ -150,8 +154,12 @@ while True:							 # Event Loop
 				window.refresh()
 				vs.finishedTask = False
 				dbval = DDB.at("log").read()
+				menu(menu1)
+				login = True
+				userNum = vs.userNum
 			else:
 				vs.err = False
+				time.sleep(0.5)
 				window["_LOGIN1_"].update("Could not create a user!")
 				window.refresh()
 				finger.delete_model(userNum)
@@ -175,7 +183,7 @@ while True:							 # Event Loop
 			login = False
 			menu(menu3)
 		except:
-			print("The key does not exist! line 168 main alpha")
+			print("The key does not exist! line 186 main alpha")
 
 
 		
@@ -271,6 +279,7 @@ while True:							 # Event Loop
 
 		menu(menu3)
 	elif event == "_GRAPHSTART_":
+		'''
 		graphactive = True
 		preventDel()
 		menu(menu2)
@@ -282,6 +291,7 @@ while True:							 # Event Loop
 			hello[timeReplaceAppend()] = {str(preventIndex) : {"temperature1" : [], "temperature2" : [], "heartbeat" : []}}
 		readmode = "temperature1"
 		delay = 500
+		'''
 	elif event == "_COHEREBUTTON_":
 		ai = True
 		delay = 500

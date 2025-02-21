@@ -13,7 +13,7 @@ menu1 = ["_GRAPHSTART_", "_COHEREBUTTON_", "_DELETE_", "_LOGOUT_"]
 menu2 = ["_READMODE_", "_GRAPHCANVAS_", "_GRAPH_", "_READING_", "_BACK_"]
 #menu3 = ["_LOGIN1_", "_USER1_", "_USER2_", "_USER3_", "_USER4_", "_EXIT_"]
 menu3 = ["_LOGIN1_", "_NEWUSER_", "_SIGNIN_", "_EXIT_"]
-menuSelect = ["_TEMPERATURE_", "_HEARTBEAT_", "_BLOODOXYGEN_", "_BACK_"]
+menuSelect = ["_TEMP_", "_HB_", "_BLOODOXYGEN_", "_SELBACK_"]
 menuai = ["_COHERE_", "_COHEREBACK_"]
 
 def gpioengine1():
