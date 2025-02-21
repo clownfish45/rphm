@@ -1,5 +1,5 @@
-log.json
-/.ddb
-/__pycache__
-/.vscode
-/userData
+.ddb/*
+__pycache__/*
+vscode/*
+userData/*
+*.json
