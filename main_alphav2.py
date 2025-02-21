@@ -185,87 +185,6 @@ while True:							 # Event Loop
 		except:
 			print("The key does not exist! line 186 main alpha")
 
-
-		
-
-		
-
-
-	'''
-	if event == "_USER1_":
-		jsondircache = jsondir + "/" + "_USER1_".lower() + ".json"
-		with open("/home/theapplepi/Documents/theApplePi/last/lastjsondir.txt", "w") as f:
-			f.write(jsondircache)
-		#prevval = event
-		#bigboy
-		preventDel()
-		print(str(newfile))
-		print(str(hello) + "menuchange")
-		menu(menu1)
-		login = True
-	elif event == "_USER2_":
-		jsondircache = jsondir + "/" + "_USER2_".lower() + ".json"
-		with open("/home/theapplepi/Documents/theApplePi/last/lastjsondir.txt", "w") as f:
-			f.write(jsondircache)
-		#prevval = event
-		#bigboy
-		preventDel()
-		print(str(newfile))
-		print(str(hello) + "menuchange")
-		menu(menu1)
-		login = True
-	elif event == "_USER3_":
-		jsondircache = jsondir + "/" + "_USER3_".lower() + ".json"
-		with open("/home/theapplepi/Documents/theApplePi/last/lastjsondir.txt", "w") as f:
-			f.write(jsondircache)
-		#prevval = event
-		#bigboy
-		preventDel()
-		print(str(newfile))
-		print(str(hello) + "menuchange")
-		menu(menu1)
-		login = True
-	elif event == "_USER4_":
-		jsondircache = jsondir + "/" + "_USER4_".lower() + ".json"
-		with open("/home/theapplepi/Documents/theApplePi/last/lastjsondir.txt", "w") as f:
-			f.write(jsondircache)
-		#prevval = event
-		#bigboy
-		preventDel()
-		print(str(newfile))
-		print(str(hello) + "menuchange")
-		menu(menu1)
-		login = True
-		#jsondircache = jsondir + "/" + str(event).lower() + ".json"
-		
-		with open("/home/theapplepi/Documents/theApplePi/last/lastjsondir.txt", "w") as f:
-			f.write(jsondircache)
-		#prevval = event
-		#bigboy
-		preventDel()
-		print(str(newfile))
-		print(str(hello) + "menuchange")
-		menu(menu1)
-		login = True
-	'''
-		#if str(event) == prevval:
-		#	delay = None
-		
-	'''
-		else:
-			jsondircache = jsondir + "/" + str(event).lower() + ".json"
-			prevval = str(event)
-			#bigboy
-			preventDel()
-			print(str(newfile))
-			if newfile == True:
-				hello[timeReplaceAppend()] = {str(preventIndex) : {"temperature" : []}}
-				newfile = False
-			print(str(hello) + "menuchange")
-			menu(menu1)
-			login = True
-		'''
-
 	if event == "_LOGOUT_":
 		delay = None
 		login = False
@@ -279,6 +198,8 @@ while True:							 # Event Loop
 
 		menu(menu3)
 	elif event == "_GRAPHSTART_":
+		menu(menuSelect)
+
 		'''
 		graphactive = True
 		preventDel()
@@ -292,6 +213,33 @@ while True:							 # Event Loop
 		readmode = "temperature1"
 		delay = 500
 		'''
+	elif event == "_TEMP_":
+		graphactive = True
+		preventDel()
+		menu(menu2)
+		scale()
+		readmode = "temperature"
+		graph_avg = 0
+		delay = 500
+
+	elif event == "_HB_":
+		graphactive = True
+		preventDel()
+		menu(menu2)
+		scale()
+		readmode = "heartbeat"
+		graph_avg = 0
+		delay = 500
+
+	elif event == "_BLOODOXYGEN_":
+		graphactive = True
+		preventDel()
+		menu(menu2)
+		scale()
+		readmode = "bloodoxygen"
+		graph_avg = 0
+		delay = 500
+
 	elif event == "_COHEREBUTTON_":
 		ai = True
 		delay = 500
@@ -310,9 +258,9 @@ while True:							 # Event Loop
 				lb = hello[str(timeReplaceAppend())][str(preventIndex - 1)]["temperature2"]
 				lg = hello[str(timeReplaceAppend())][str(preventIndex - 1)]["heartbeat"]
 			response = co.generate(
-				prompt = f"The latest temperature mesurements of my body	 in degrees C were {ls}. \
+				prompt = f"The latest temperature mesurements of my body in degrees C were {ls}. \
 				The heartbeat rate per minute were {lg}\
-				The other temperature for a good measure were {lb}\
+				The other temperature for a good measure was {lb}\
 				What are your opinions on the temperatures and what do you\
 				 suggest the person should do to improve them? Also, what are your opinions on the heartbeat of the person? Answer in one sentence",
 			)
@@ -344,10 +292,16 @@ while True:							 # Event Loop
 					window["_GRAPH_"].Move(GRAPH_STEP_SIZE * amount, 0)
 					amount = 0
 				window["_GRAPH_"].erase()
+			else:
+				dbval = DDB.at("log").read()
+				dbval[str(userNum)][readmode][dateToday()] = round(graph_avg, 2)
+				os.remove(f"{DDB.config.storage_directory}log.json")
+				DDB.at("log").create(dbval)
+
 			lastx = lasty = y = 0
 			x = 0
 			preventIndex += 1
-			jsonChange("w", hello, jsondircache)
+			#jsonChange("w", hello, jsondircache)
 			menu(menu1)
 		if x >= 180:
 			if amount != 0:
@@ -355,14 +309,16 @@ while True:							 # Event Loop
 				amount = 0
 			else:
 				window["_GRAPH_"].erase()   #finsih!!!!
-			jsonChange("w", hello, jsondircache)
+			#jsonChange("w", hello, jsondircache)
+
+		'''
 		if event == "_READING_":
 			pos = readmodes.index(readmode)
 			if pos == 2:
 				readmode = readmodes[0]
 			else:
 				readmode = readmodes[pos + 1]
-
+		'''
 		'''
 		test only
 		if readmode == "temperature1":
@@ -378,26 +334,34 @@ while True:							 # Event Loop
 			window["_READMODE_"].update("heartbeat")
 
 		'''
-		if readmode == "temperature1" or readmode == "temperature2" or readmode == "heartbeat":
+		if readmode == "temperature" or readmode == "heartbeat" or readmode == "bloodoxygen":
 			y = randint(20,100)
+			if graph_avg == 0:
+				graph_avg += y
+			else:
+				graph_avg = (graph_avg + y)/2
 			window["_READMODE_"].update("heartbeat") #test only
+			window.refresh()
 
 		if x < GRAPH_SIZE[0] and graphactive == True and x < 180:			   # if still drawing initial width of graph
 			''' test only
 			hr = HeartRate(max30105)
 			hr.on_beat(storeheartbeat, average_over = 4)
 			'''
-			hr = randint(80,120)
+			#hr = randint(80,120)
 
 			if y != 0.0 and y != 0:
 				window["_GRAPH_"].DrawLine((lastx+2, lasty * 2), (x+2, y * 2), width=1)
+				window.refresh()
 				amount += 1
 			else:
 				sg.popup_timed("HEY! There's an incorrect reading. Make sure to push your fingers against the sensors or check the connections!")
 
+			'''
 			print(preventDel())
 			preventDel()
 			print(hello[timeReplaceAppend()])
+			'''
 			'''test only
 			timeReplaceAppend(hello[timeReplaceAppend()][str(preventIndex)]["temperature1"], max30105.get_temperature())
 			timeReplaceAppend(hello[timeReplaceAppend()][str(preventIndex)]["temperature2"], tempsensor.get_temperature(Unit.DEGREES_C))
@@ -405,14 +369,15 @@ while True:							 # Event Loop
 			'''
 
 
-			jsonChange("w", hello, jsondircache)
+			#jsonChange("w", hello, jsondircache)
 		elif graphactive == True and x < 180:							   # finished drawing full graph width so move each time to make room
-			hr = HeartRate(max30105)
-			hr.on_beat(storeheartbeat, average_over = 4)
+			#hr = HeartRate(max30105) <--test only
+			#hr.on_beat(storeheartbeat, average_over = 4) <---test only
 
 			if y != 0.0 and y != 0:
 				window["_GRAPH_"].DrawLine((lastx+2, lasty * 2), (x+2, y * 2), width=1)
 				window["_GRAPH_"].Move(-GRAPH_STEP_SIZE, 0)
+				window.refresh()
 				amount += 1
 				x -= GRAPH_STEP_SIZE
 			else:
@@ -425,7 +390,7 @@ while True:							 # Event Loop
 			if avg_bpm != 0.0:
 				timeReplaceAppend(hello[timeReplaceAppend()][str(preventIndex)]["heartbeat"], avg_bpm)
 			'''
-			jsonChange("w", hello, jsondircache)
+			#jsonChange("w", hello, jsondircache)
 		lastx, lasty = x, y
 		x += GRAPH_STEP_SIZE
 #	print(graphactive, login, prevval, values["_PROMPT_"])

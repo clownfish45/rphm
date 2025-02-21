@@ -47,13 +47,13 @@ beat = bool()
 
 
 menu1 = ["_GRAPHSTART_", "_COHEREBUTTON_", "_DELETE_", "_LOGOUT_"]
-menu2 = ["_READMODE_", "_GRAPHCANVAS_", "_GRAPH_", "_READING_", "_BACK_"]
+menu2 = ["_READMODE_", "_GRAPHCANVAS_", "_GRAPH_", "_BACK_"]
 menu3 = ["_LOGIN1_", "_NEWUSER_", "_SIGNIN_", "_EXIT_"]
 menuSelect = ["_TEMP_", "_HB_", "_BLOODOXYGEN_", "_SELBACK_"]
 menuai = ["_COHERE_", "_COHEREBACK_"]
 lastmenu = []
 
-keylist = menu1 + menu2 + menu3 + menuai
+keylist = menu1 + menu2 + menu3 + menuSelect + menuai
 
 menustate = {}
 hello = {}
@@ -73,7 +73,7 @@ vs = variableStorage()
 
 
 
-readmodes = ["temperature1", "heartbeat", "temperature2"]
+readmodes = ["temperature", "heartbeat", "bloodoxygen"]
 readmode = ""
 
 
@@ -138,7 +138,7 @@ def timeReplaceAppend(x = None, y = None): ##creates a date variable, if x and y
 	else:
 		return x.append(y)
 
-def timeToday():
+def dateToday():
 	return str(date.today()).replace("-", "")
 
 def newdb(hello):
