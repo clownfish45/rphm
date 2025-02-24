@@ -43,13 +43,15 @@ delay = None
 newfile = None
 ai = False
 once = True
+allgraph = False
+graphStage = 0
 beat = bool()
 
 
 menu1 = ["_GRAPHSTART_", "_COHEREBUTTON_", "_DELETE_", "_LOGOUT_"]
-menu2 = ["_READMODE_", "_GRAPHCANVAS_", "_GRAPH_", "_BACK_"]
+menu2 = ["_READMODE_", "_GRAPHCANVAS_", "_GRAPH_", "_STATS_", "_BACK_"]
 menu3 = ["_LOGIN1_", "_NEWUSER_", "_SIGNIN_", "_EXIT_"]
-menuSelect = ["_TEMP_", "_HB_", "_BLOODOXYGEN_", "_SELBACK_"]
+menuSelect = ["_TEMP_", "_HR_", "_BLOODOXYGEN_", "_ALL_", "_SELBACK_"]
 menuai = ["_COHERE_", "_COHEREBACK_"]
 lastmenu = []
 
@@ -245,12 +247,14 @@ layout = [
 	[sg.Button("DELETE USER", key = "_DELETE_", visible = False, size = 100)],
 	[sg.Button("LOGOUT", key = "_LOGOUT_", visible = False, size = 100)],
 	[sg.Graph(canvas_size=(40, 200), graph_bottom_left=(0, 0), graph_top_right=(8, 200), background_color = graphcol, key = "_GRAPHCANVAS_", visible = False), sg.Graph(GRAPH_SIZE, (0,0), GRAPH_SIZE, key="_GRAPH_", background_color = graphcol, visible = False),],
+	[sg.Text(text="", key = "_STATS_", visible = False)],
 	[sg.Button("GO BACK", key = "_BACK_", visible = False, size = 100)],
 	[sg.Text(coheretext, key = "_COHERE_", visible = False, auto_size_text = True, size = (700, 5))],
 	[sg.Button("GO BACK", key = "_COHEREBACK_", visible = False, size = 25), sg.Button("DIFFERENT reading", key = "_READING_", visible = False, size = 25)],
 	[sg.Button("temperature", key = "_TEMP_", visible = False, size = 100)],
-	[sg.Button("heart rate", key = "_HB_", visible = False, size = 100)],
+	[sg.Button("heart rate", key = "_HR_", visible = False, size = 100)],
 	[sg.Button("BLOOD OXYGEN", key = "_BLOODOXYGEN_", visible = False, size = 100)],
+	[sg.Button("read all", key = "_ALL_", visible = False, size = 100)],
 	[sg.Button("BAck", key = "_SELBACK_", visible = False, size = 100)],
 	
 	

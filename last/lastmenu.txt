@@ -1,1 +1,1 @@
-['_LOGIN1_', '_NEWUSER_', '_SIGNIN_', '_EXIT_']
+['_GRAPHSTART_', '_COHEREBUTTON_', '_DELETE_', '_LOGOUT_']

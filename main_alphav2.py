@@ -16,8 +16,10 @@ menu(menu3)
 while True:							 # Event Loop
 	event, values = window.read(timeout = delay)
 	if newfile == False:
+		'''
 		trytuple[0] = hello
 		trytuple[1] = preventIndex
+		'''
 	if event == "_EXIT_" or event == sg.WIN_CLOSED:
 		break
 	elif login == False:
@@ -198,6 +200,7 @@ while True:							 # Event Loop
 
 		menu(menu3)
 	elif event == "_GRAPHSTART_":
+		#stop = True
 		menu(menuSelect)
 
 		'''
@@ -222,7 +225,7 @@ while True:							 # Event Loop
 		graph_avg = 0
 		delay = 500
 
-	elif event == "_HB_":
+	elif event == "_HR_":
 		graphactive = True
 		preventDel()
 		menu(menu2)
@@ -240,6 +243,21 @@ while True:							 # Event Loop
 		graph_avg = 0
 		delay = 500
 
+	elif event == "_SELBACK_":
+		menu(menu1)
+
+	elif event == "_ALL_":
+		graphactive = True
+		preventDel()
+		menu(menu2)
+		scale()
+		readmode = "all"
+		temp_avg = 0
+		hr_avg = 0
+		bloodoxygen_avg = 0
+		delay = 500
+		allgraph = True
+
 	elif event == "_COHEREBUTTON_":
 		ai = True
 		delay = 500
@@ -247,6 +265,7 @@ while True:							 # Event Loop
 	elif ai == True:
 		if once == True:
 			menu(menuai)
+			'''
 			with open(jsondircache, "r") as j:
 				hello = dict(json.load(j))
 			try :
@@ -257,6 +276,10 @@ while True:							 # Event Loop
 				ls = hello[str(timeReplaceAppend())][str(preventIndex - 1)]["temperature1"]
 				lb = hello[str(timeReplaceAppend())][str(preventIndex - 1)]["temperature2"]
 				lg = hello[str(timeReplaceAppend())][str(preventIndex - 1)]["heartbeat"]
+			'''
+			dbval = DDB.at("log").read()
+
+			temp = dbval[str(userNum)]["temperature"][dateToday()]
 			response = co.generate(
 				prompt = f"The latest temperature mesurements of my body in degrees C were {ls}. \
 				The heartbeat rate per minute were {lg}\
@@ -267,18 +290,11 @@ while True:							 # Event Loop
 			response = list(response)
 			coheretext = str(response[0])
 			print(coheretext)
-			'''
-			hl = len(coheretext)
-			for i in range(hl // 75 + 1):
-				num = int(hl / hl // 75 + 1 * i)
-				l = list(coheretext)
-				l[num] = "/n"
-				coheretext = "".join(l)
-				print(l)
-			'''
+			
 			#window["_COHERE_"].update(coheretext)
 			sg.popup_timed(coheretext)
 			once = False
+
 		if event == "_COHEREBACK_":
 			once = True
 			ai = False
@@ -286,30 +302,51 @@ while True:							 # Event Loop
 
 	elif graphactive == True:
 		if event == "_BACK_":
+			
 			graphactive = False
 			if x < 180:
 				if amount != 0:
 					window["_GRAPH_"].Move(GRAPH_STEP_SIZE * amount, 0)
 					amount = 0
 				window["_GRAPH_"].erase()
+				#stop = True
 			else:
 				dbval = DDB.at("log").read()
+				'''
+				if dbval[str(userNum)][readmode][dateToday()][0] != None:
+					dbval[str(userNum)][readmode][dateToday()].append(round(graph_avg, 2))
+				else:
+					dbval[str(userNum)][readmode][dateToday()] = list(round(graph_avg, 2))
+				'''
 				dbval[str(userNum)][readmode][dateToday()] = round(graph_avg, 2)
 				os.remove(f"{DDB.config.storage_directory}log.json")
 				DDB.at("log").create(dbval)
+				#stop = True
+
 
 			lastx = lasty = y = 0
 			x = 0
 			preventIndex += 1
 			#jsonChange("w", hello, jsondircache)
 			menu(menu1)
-		if x >= 180:
+		if x >= 180 and allgraph == False:
 			if amount != 0:
 				window["_GRAPH_"].Move(GRAPH_STEP_SIZE * amount, 0)
 				amount = 0
 			else:
 				window["_GRAPH_"].erase()   #finsih!!!!
+				window["_READMODE_"].update("DONE!")
+				#readmode = ""
 			#jsonChange("w", hello, jsondircache)
+		elif x>=180 and allgraph:
+			if amount != 0:
+				window["_GRAPH_"].Move(GRAPH_STEP_SIZE * amount, 0)
+				amount = 0
+			else:
+				window["_GRAPH_"].erase()
+				graphStage+=1
+				lastx = lasty = x = y = 0
+				#readmode = ""
 
 		'''
 		if event == "_READING_":
@@ -334,14 +371,75 @@ while True:							 # Event Loop
 			window["_READMODE_"].update("heartbeat")
 
 		'''
-		if readmode == "temperature" or readmode == "heartbeat" or readmode == "bloodoxygen":
+
+		if readmode == "temperature":
 			y = randint(20,100)
 			if graph_avg == 0:
 				graph_avg += y
 			else:
 				graph_avg = (graph_avg + y)/2
+			window["_STATS_"].update(f"current:{y}, average:{round(graph_avg, 2)}")
 			window["_READMODE_"].update("heartbeat") #test only
 			window.refresh()
+
+		elif readmode == "heartbeat":
+			y = randint(20,100)
+			if graph_avg == 0:
+				graph_avg += y
+			else:
+				graph_avg = (graph_avg + y)/2
+			window["_STATS_"].update(f"current:{y}, average:{round(graph_avg, 2)}")
+			window["_READMODE_"].update("heartbeat") #test only
+			window.refresh()
+
+		elif readmode == "bloodoxygen":
+			y = randint(20,100)
+			if graph_avg == 0:
+				graph_avg += y
+			else:
+				graph_avg = (graph_avg + y)/2
+			window["_STATS_"].update(f"current:{y}, average:{round(graph_avg, 2)}")
+			window["_READMODE_"].update("heartbeat") #test only
+			window.refresh()
+		
+		elif readmode == "all":
+			if graphStage == 0:
+				y = randint(20,100)
+				if temp_avg == 0:
+					temp_avg += y
+				else:
+					temp_avg = (temp_avg + y)/2
+				window["_STATS_"].update(f"current:{y}, average:{round(temp_avg, 2)}")
+				window["_READMODE_"].update("temperature") #test only
+				window.refresh()
+			elif graphStage == 1:
+				y = randint(20,100)
+				if hr_avg == 0:
+					hr_avg += y
+				else:
+					hr_avg = (hr_avg + y)/2
+				window["_STATS_"].update(f"current:{y}, average:{round(hr_avg, 2)}")
+				window["_READMODE_"].update("heart rate") #test only
+				window.refresh()
+			elif graphStage == 2:
+				y = randint(20,100)
+				if bloodoxygen_avg == 0:
+					bloodoxygen_avg += y
+				else:
+					bloodoxygen_avg = (bloodoxygen_avg + y)/2
+				window["_STATS_"].update(f"current:{y}, average:{round(bloodoxygen_avg, 2)}")
+				window["_READMODE_"].update("blood oxygen") #test only
+				window.refresh()
+			elif graphStage == 3:
+				dbval = DDB.at("log").read()
+				dbval[str(userNum)]["temperature"][dateToday()] = round(temp_avg, 2)
+				dbval[str(userNum)]["heartbeat"][dateToday()] = round(hr_avg, 2)
+				dbval[str(userNum)]["bloodoxygen"][dateToday()] = round(bloodoxygen_avg, 2)
+				os.remove(f"{DDB.config.storage_directory}log.json")
+				DDB.at("log").create(dbval)
+				x = 190
+				bloodoxygen_avg = temp_avg = hr_avg = 0
+				window["_READMODE_"].update("DONE!")
 
 		if x < GRAPH_SIZE[0] and graphactive == True and x < 180:			   # if still drawing initial width of graph
 			''' test only
