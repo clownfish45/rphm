@@ -44,6 +44,7 @@ newfile = None
 ai = False
 once = True
 allgraph = False
+stopgraph = False
 graphStage = 0
 beat = bool()
 
@@ -69,6 +70,7 @@ class variableStorage:
 	tempText = str()
 	userNum = int()
 	err = False
+	readmode = str()
 
 
 vs = variableStorage()

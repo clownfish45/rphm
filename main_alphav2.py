@@ -72,6 +72,7 @@ while True:							 # Event Loop
 	elif event == "_NEWUSER_":
 		if DDB.at("log").exists() == False:
 			userNum = 1
+
 			dbval = {
 						"lastuser": 1,
 						"userquantity": 1,
@@ -114,6 +115,7 @@ while True:							 # Event Loop
 				userNum = vs.userNum
 			else:
 				vs.err = False
+				vs.userNum = 0
 				window["_LOGIN1_"].update("Could not create a user!")
 				window.refresh()
 				vs.finishedTask = False
@@ -202,6 +204,8 @@ while True:							 # Event Loop
 	elif event == "_GRAPHSTART_":
 		#stop = True
 		menu(menuSelect)
+		stopgraph = False
+		print(userNum, "usernum at graphstart\n\n")
 
 		'''
 		graphactive = True
@@ -278,22 +282,29 @@ while True:							 # Event Loop
 				lg = hello[str(timeReplaceAppend())][str(preventIndex - 1)]["heartbeat"]
 			'''
 			dbval = DDB.at("log").read()
-
-			temp = dbval[str(userNum)]["temperature"][dateToday()]
-			response = co.generate(
-				prompt = f"The latest temperature mesurements of my body in degrees C were {ls}. \
-				The heartbeat rate per minute were {lg}\
-				The other temperature for a good measure was {lb}\
-				What are your opinions on the temperatures and what do you\
-				 suggest the person should do to improve them? Also, what are your opinions on the heartbeat of the person? Answer in one sentence",
-			)
-			response = list(response)
-			coheretext = str(response[0])
-			print(coheretext)
-			
-			#window["_COHERE_"].update(coheretext)
-			sg.popup_timed(coheretext)
-			once = False
+			try:
+				temp = dbval[str(userNum)]["temperature"][dateToday()]
+				hr = dbval[str(userNum)]["heartbeat"][dateToday()]
+				bloodoxygen = dbval[str(userNum)]["bloodoxygen"][dateToday()]
+				response = co.generate(
+					prompt = f"The latest temperature mesurements of my body in degrees C were {temp}. \
+					The heartbeat rate per minute were {hr}\
+					The blood oxygen concentration was {bloodoxygen}\
+					What are your opinions on the temperatures and what do you\
+					suggest the person should do to improve them? Also, what are your opinions on the heartbeat of the person? Answer in one sentence",
+				)
+				response = list(response)
+				coheretext = str(response[0])
+				print(coheretext)
+				
+				#window["_COHERE_"].update(coheretext)
+				sg.popup_timed(coheretext)
+				once = False
+			except:
+				print(dbval)
+				sg.popup_timed("WARNING! You have not taken a reading of all your statistics today! Please take a reading and choose the 'read all' option")
+				once = False
+				
 
 		if event == "_COHEREBACK_":
 			once = True
@@ -302,6 +313,9 @@ while True:							 # Event Loop
 
 	elif graphactive == True:
 		if event == "_BACK_":
+			x=0
+			readmode = str()
+			allgraph = False
 			
 			graphactive = False
 			if x < 180:
@@ -336,6 +350,8 @@ while True:							 # Event Loop
 			else:
 				window["_GRAPH_"].erase()   #finsih!!!!
 				window["_READMODE_"].update("DONE!")
+				window["_STATS_"].update("press 'go back'")
+				x = 9999
 				#readmode = ""
 			#jsonChange("w", hello, jsondircache)
 		elif x>=180 and allgraph:
@@ -372,7 +388,7 @@ while True:							 # Event Loop
 
 		'''
 
-		if readmode == "temperature":
+		if readmode == "temperature" and x != 9999:
 			y = randint(20,100)
 			if graph_avg == 0:
 				graph_avg += y
@@ -382,7 +398,7 @@ while True:							 # Event Loop
 			window["_READMODE_"].update("heartbeat") #test only
 			window.refresh()
 
-		elif readmode == "heartbeat":
+		elif readmode == "heartbeat" and x != 9999:
 			y = randint(20,100)
 			if graph_avg == 0:
 				graph_avg += y
@@ -392,7 +408,7 @@ while True:							 # Event Loop
 			window["_READMODE_"].update("heartbeat") #test only
 			window.refresh()
 
-		elif readmode == "bloodoxygen":
+		elif readmode == "bloodoxygen" and x != 9999:
 			y = randint(20,100)
 			if graph_avg == 0:
 				graph_avg += y
@@ -437,9 +453,10 @@ while True:							 # Event Loop
 				dbval[str(userNum)]["bloodoxygen"][dateToday()] = round(bloodoxygen_avg, 2)
 				os.remove(f"{DDB.config.storage_directory}log.json")
 				DDB.at("log").create(dbval)
-				x = 190
 				bloodoxygen_avg = temp_avg = hr_avg = 0
 				window["_READMODE_"].update("DONE!")
+				window["_STATS_"].update("press 'go back'")
+				x = 190
 
 		if x < GRAPH_SIZE[0] and graphactive == True and x < 180:			   # if still drawing initial width of graph
 			''' test only
@@ -453,7 +470,7 @@ while True:							 # Event Loop
 				window.refresh()
 				amount += 1
 			else:
-				sg.popup_timed("HEY! There's an incorrect reading. Make sure to push your fingers against the sensors or check the connections!")
+				pass
 
 			'''
 			print(preventDel())
@@ -479,7 +496,7 @@ while True:							 # Event Loop
 				amount += 1
 				x -= GRAPH_STEP_SIZE
 			else:
-				sg.popup_timed("HEY! There's an incorrect reading. Make sure to push your fingers against the sensors or check the connections!")
+				pass
 			preventDel()
 			print(hello[timeReplaceAppend()])
 			'''test only
