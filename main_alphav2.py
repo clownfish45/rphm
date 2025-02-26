@@ -314,33 +314,27 @@ while True:							 # Event Loop
 
 	elif graphactive == True:
 		if event == "_BACK_":
-			x=0
-			readmode = str()
 			allgraph = False
 			
-			graphactive = False
+			print(x)
 			if x < 180:
 				if amount != 0:
 					window["_GRAPH_"].Move(GRAPH_STEP_SIZE * amount, 0)
 					amount = 0
 				window["_GRAPH_"].erase()
+
 				#stop = True
 			else:
 				dbval = DDB.at("log").read()
-				'''
-				if dbval[str(userNum)][readmode][dateToday()][0] != None:
-					dbval[str(userNum)][readmode][dateToday()].append(round(graph_avg, 2))
-				else:
-					dbval[str(userNum)][readmode][dateToday()] = list(round(graph_avg, 2))
-				'''
 				dbval[str(userNum)][readmode][dateToday()] = round(graph_avg, 2)
+
 				os.remove(f"{DDB.config.storage_directory}log.json")
 				DDB.at("log").create(dbval)
 				#stop = True
+			graphactive = False
 
 
-			lastx = lasty = y = 0
-			x = 0
+			lastx = lasty = y = x = 0
 			preventIndex += 1
 			#jsonChange("w", hello, jsondircache)
 			menu(menu1)
@@ -355,7 +349,7 @@ while True:							 # Event Loop
 				x = 9999
 				#readmode = ""
 			#jsonChange("w", hello, jsondircache)
-		elif x>=180 and allgraph:
+		elif x>=180 and allgraph == True:
 			if amount != 0:
 				window["_GRAPH_"].Move(GRAPH_STEP_SIZE * amount, 0)
 				amount = 0
@@ -390,33 +384,36 @@ while True:							 # Event Loop
 		'''
 
 		if readmode == "temperature" and x != 9999:
+			allgraph = False
 			y = randint(20,100)
 			if graph_avg == 0:
 				graph_avg += y
 			else:
 				graph_avg = (graph_avg + y)/2
 			window["_STATS_"].update(f"current:{y}, average:{round(graph_avg, 2)}")
-			window["_READMODE_"].update("heartbeat") #test only
+			window["_READMODE_"].update("temperature") #test only
 			window.refresh()
 
 		elif readmode == "heartbeat" and x != 9999:
+			allgraph = False
 			y = randint(20,100)
 			if graph_avg == 0:
 				graph_avg += y
 			else:
 				graph_avg = (graph_avg + y)/2
 			window["_STATS_"].update(f"current:{y}, average:{round(graph_avg, 2)}")
-			window["_READMODE_"].update("heartbeat") #test only
+			window["_READMODE_"].update("heart rate") #test only
 			window.refresh()
 
 		elif readmode == "bloodoxygen" and x != 9999:
+			allgraph = False
 			y = randint(20,100)
 			if graph_avg == 0:
 				graph_avg += y
 			else:
 				graph_avg = (graph_avg + y)/2
 			window["_STATS_"].update(f"current:{y}, average:{round(graph_avg, 2)}")
-			window["_READMODE_"].update("heartbeat") #test only
+			window["_READMODE_"].update("blood oxygen") #test only
 			window.refresh()
 		
 		elif readmode == "all":
