@@ -72,6 +72,7 @@ while True:							 # Event Loop
 	elif event == "_NEWUSER_":
 		if DDB.at("log").exists() == False:
 			userNum = 1
+			vs.userNum = userNum
 
 			dbval = {
 						"lastuser": 1,
@@ -119,8 +120,8 @@ while True:							 # Event Loop
 				window["_LOGIN1_"].update("Could not create a user!")
 				window.refresh()
 				vs.finishedTask = False
-		elif DDB.at("log").read()["userquantity"] >= 4:
-			window["_LOGIN1_"].update("User limit reached: 4")
+		elif DDB.at("log").read()["userquantity"] >= maxUserCount:
+			window["_LOGIN1_"].update(f"User limit reached: {maxUserCount}")
 			window.refresh()
 		else:
 			dbval = DDB.at("log").read()
