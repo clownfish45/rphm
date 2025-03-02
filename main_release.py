@@ -1,4 +1,4 @@
-#from gpiobuttons2n1 import * test only
+from gpiobuttons2n1 import *# test only
 from variables import *
 from threading import Thread
 from random import randint
@@ -6,11 +6,11 @@ import dictdatabase as DDB
 import sys
 
 print("\n\n\n\n new")
-''' test only
+#test only
 Thread(target = gpioengine1, daemon = True).start()
 Thread(target = gpioengine2, daemon = True).start()
-Thread(target = getheart, daemon = True).start()
-'''
+#Thread(target = getheart, daemon = True).start()
+
 menu(menu3)
 #window.TKroot["cursor"] = "none"
 while True:							 # Event Loop
@@ -385,65 +385,87 @@ while True:							 # Event Loop
 
 		if readmode == "temperature" and x != 9999:
 			allgraph = False
-			y = randint(20,100)
+			#y = randint(20,100)
+			y = round(max30105.get_temperature(), 2) + 5
 			if graph_avg == 0:
 				graph_avg += y
 			else:
 				graph_avg = (graph_avg + y)/2
-			window["_STATS_"].update(f"current:{y}, average:{round(graph_avg, 2)}")
+			window["_STATS_"].update(f"current:{round(y, 2)}, average:{round(graph_avg, 2)}")
 			window["_READMODE_"].update("temperature") #test only
 			window.refresh()
 
 		elif readmode == "heartbeat" and x != 9999:
 			allgraph = False
-			y = randint(20,100)
-			if graph_avg == 0:
-				graph_avg += y
+			#y = randint(20,100)
+			y = read_hr()
+			if y == -1:
+				window["_STATS_"].update("bad reading: press your finger against the sensor and/or clean the surfaces!")
+				window.refresh()
 			else:
-				graph_avg = (graph_avg + y)/2
-			window["_STATS_"].update(f"current:{y}, average:{round(graph_avg, 2)}")
-			window["_READMODE_"].update("heart rate") #test only
-			window.refresh()
+				if graph_avg == 0:
+					graph_avg += y
+				else:
+					graph_avg = (graph_avg + y)/2
+				window["_STATS_"].update(f"current:{round(y, 2)}, average:{round(graph_avg, 2)}")
+				window["_READMODE_"].update("heart rate") #test only
+				window.refresh()
 
 		elif readmode == "bloodoxygen" and x != 9999:
 			allgraph = False
-			y = randint(20,100)
-			if graph_avg == 0:
-				graph_avg += y
+			#y = randint(20,100)
+			y = read_bloodoxygen()
+			if y == -1:
+				window["_STATS_"].update("bad reading: press your finger against the sensor and/or clean the surfaces!")
+				window.refresh()
 			else:
-				graph_avg = (graph_avg + y)/2
-			window["_STATS_"].update(f"current:{y}, average:{round(graph_avg, 2)}")
-			window["_READMODE_"].update("blood oxygen") #test only
-			window.refresh()
+				if graph_avg == 0:
+					graph_avg += y
+				else:
+					graph_avg = (graph_avg + y)/2
+				window["_STATS_"].update(f"current:{round(y, 2)}, average:{round(graph_avg, 2)}")
+				window["_READMODE_"].update("blood oxygen") #test only
+				window.refresh()
 		
 		elif readmode == "all":
 			if graphStage == 0:
-				y = randint(20,100)
+				#y = randint(20,100)
+				y = round(max30105.get_temperature(), 2) + 5
 				if temp_avg == 0:
 					temp_avg += y
 				else:
 					temp_avg = (temp_avg + y)/2
-				window["_STATS_"].update(f"current:{y}, average:{round(temp_avg, 2)}")
+				window["_STATS_"].update(f"current:{round(y, 2)}, average:{round(temp_avg, 2)}")
 				window["_READMODE_"].update("temperature") #test only
 				window.refresh()
 			elif graphStage == 1:
-				y = randint(20,100)
-				if hr_avg == 0:
-					hr_avg += y
+				#y = randint(20,100)
+				y = read_hr()
+				if y == -1:
+					window["_STATS_"].update("bad reading: press your finger against the sensor and/or clean the surfaces!")
+					window.refresh()
 				else:
-					hr_avg = (hr_avg + y)/2
-				window["_STATS_"].update(f"current:{y}, average:{round(hr_avg, 2)}")
-				window["_READMODE_"].update("heart rate") #test only
-				window.refresh()
+					if hr_avg == 0:
+						hr_avg += y
+					else:
+						hr_avg = (hr_avg + y)/2
+					window["_STATS_"].update(f"current:{round(y, 2)}, average:{round(hr_avg, 2)}")
+					window["_READMODE_"].update("heart rate") #test only
+					window.refresh()
 			elif graphStage == 2:
-				y = randint(20,100)
-				if bloodoxygen_avg == 0:
-					bloodoxygen_avg += y
+				#y = randint(20,100)
+				y = read_bloodoxygen()
+				if y == -1:
+					window["_STATS_"].update("bad reading: press your finger against the sensor and/or clean the surfaces!")
+					window.refresh()
 				else:
-					bloodoxygen_avg = (bloodoxygen_avg + y)/2
-				window["_STATS_"].update(f"current:{y}, average:{round(bloodoxygen_avg, 2)}")
-				window["_READMODE_"].update("blood oxygen") #test only
-				window.refresh()
+					if bloodoxygen_avg == 0:
+						bloodoxygen_avg += y
+					else:
+						bloodoxygen_avg = (bloodoxygen_avg + y)/2
+					window["_STATS_"].update(f"current:{round(y, 2)}, average:{round(bloodoxygen_avg, 2)}")
+					window["_READMODE_"].update("blood oxygen") #test only
+					window.refresh()
 			elif graphStage == 3:
 				dbval = DDB.at("log").read()
 				dbval[str(userNum)]["temperature"][dateToday()] = round(temp_avg, 2)

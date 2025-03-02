@@ -6,11 +6,12 @@ import cohere
 from max30105 import MAX30105, HeartRate
 from w1thermsensor import W1ThermSensor, Unit
 import dictdatabase as DDB
-import hrcalc
 import time
 import serial
 import adafruit_fingerprint
 import os
+import max30102
+import hrcalc
 
 
 uart = serial.Serial("/dev/ttyS0", baudrate=57600, timeout=1)
@@ -84,39 +85,34 @@ readmode = ""
 
 co = cohere.Client('bE0FaKsN0Cs3Z0nl9DNJ9ko6bctPqUrpBfMLcsJp')
 
-'''test only
+
+m = max30102.MAX30102()
+
 max30105 = MAX30105()
-max30105.setup(leds_enable = 2)
+max30105.setup(led_power=50, leds_enable=2)
 
+def read_hr():
+	# Read data from the sensor
+	red, ir = m.read_sequential()
+	# Calculate heart rate and SpO2
+	hr, hr_valid, spo2, spo2_valid = hrcalc.calc_hr_and_spo2(ir, red)
 
-max30105.set_slot_mode(1, 'red')
-max30105.set_slot_mode(2, 'ir')
-max30105.set_slot_mode(3, 'off')
-max30105.set_slot_mode(4, 'off')
+	# Check if valid readings are obtained
+	if hr_valid:
+		return hr
+	else:
+		return -1
 
+def read_bloodoxygen():
+	red, ir = m.read_sequential()
+	# Calculate heart rate and SpO2
+	hr, hr_valid, spo2, spo2_valid = hrcalc.calc_hr_and_spo2(ir, red)
 
-def getheart():
-
-	max30105 = MAX30105()
-	max30105.setup(leds_enable = 2)
-
-
-	max30105.set_slot_mode(1, 'red')
-	max30105.set_slot_mode(2, 'ir')
-	max30105.set_slot_mode(3, 'off')
-	max30105.set_slot_mode(4, 'off')
-
-	hr = HeartRate(max30105)
-	hr.on_beat(storeheartbeat, average_over = 4)
-	return beat, bpm, avg_bpm
-tempsensor = W1ThermSensor()
-
-def storeheartbeat(beat, bpm, avg_bpm):
-	bpm = round(bpm, 2)
-	avg_bpm = round(avg_bpm, 2)
-	return beat, bpm, avg_bpm
-
-'''
+	# Check if valid readings are obtained
+	if spo2_valid:
+		return round(spo2, 2)
+	else:
+		return -1
 
 
 
@@ -502,4 +498,4 @@ if __name__ == "__main__":
 	sg.Popup("You are not supposed to run this file!")
 	exit();
 
-#window.maximize() <------ undo this later
+window.maximize()# <------ undo this later
