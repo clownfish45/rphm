@@ -8,6 +8,7 @@ import dictdatabase as DDB
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(36, GPIO.OUT, initial = 1)
+GPIO.setup(37, GPIO.OUT, initial = 1)
 
 menu1 = ["_GRAPHSTART_", "_COHEREBUTTON_", "_DELETE_", "_LOGOUT_"]
 menu2 = ["_READMODE_", "_GRAPHCANVAS_", "_GRAPH_", "_STATS_", "_BACK_"]
