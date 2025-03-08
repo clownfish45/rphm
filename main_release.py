@@ -125,7 +125,9 @@ while True:							 # Event Loop
 			window.refresh()
 		else:
 			dbval = DDB.at("log").read()
-			userNum = dbval["lastuser"] + 1
+			userNum = int(dbval["lastuser"]) + 1
+			print(f"\nusernum at creation = {userNum}\n")
+			vs.userNum = userNum
 
 			event = None
 			ef = Thread(target = enroll_finger, daemon = True, args=(userNum,))

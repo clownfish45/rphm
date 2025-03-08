@@ -69,6 +69,7 @@ def gpioengine1():
 			continue
 		elif GPIO.input(40) == GPIO.HIGH and press == True:
 			pyautogui.click()
+			time.sleep(0.5)
 		time.sleep(0.05)
 
 def gpioengine2():
@@ -126,6 +127,7 @@ def gpioengine2():
 			continue
 		elif GPIO.input(38) == GPIO.HIGH and press == True:
 			pyautogui.click()
+			time.sleep(0.5)
 		time.sleep(0.05)
 		
 		
