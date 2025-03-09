@@ -18,7 +18,7 @@ uart = serial.Serial("/dev/ttyS0", baudrate=57600, timeout=1)
 
 finger = adafruit_fingerprint.Adafruit_Fingerprint(uart)
 
-font = "Silkscreen 11"
+font = "Silkscreen 26"
 sg.change_look_and_feel("DarkBlue14")
 title = "APPLEPI"
 prevval = ""
@@ -179,7 +179,7 @@ def scale():
 	window["_GRAPHCANVAS_"].DrawLine((2, 0), (2, 200), width = 1)
 	for i in range(1, int(200 / 5)):
 			window["_GRAPHCANVAS_"].DrawLine((0, i * 10), (4, i * 10), width = 1)
-			window["_GRAPHCANVAS_"].draw_text(location = (6, i * 10), text = str(i * 10), font = "Silkscreen 8", color = "black")
+			window["_GRAPHCANVAS_"].draw_text(location = (6, i * 10), text = str(i * 10), font = "Silkscreen 16", color = "black")
 
 def preventDel():
 	global hello, preventIndex, jsondircache, newfile
@@ -260,7 +260,7 @@ layout = [
 ]
 
 
-window = sg.Window(title, layout, size = (800, 480),element_justification = "c", font = "Silkscreen 11", finalize = True)
+window = sg.Window(title, layout, size = (800, 480),element_justification = "c", font = font, finalize = True)
 
 
 #window("_LOGIN1_").update(text = "whatever")

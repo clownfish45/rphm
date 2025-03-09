@@ -388,7 +388,7 @@ while True:							 # Event Loop
 		if readmode == "temperature" and x != 9999:
 			allgraph = False
 			#y = randint(20,100)
-			y = round(max30105.get_temperature(), 2) + 5
+			y = round(max30105.get_temperature(), 2) + 2
 			if graph_avg == 0:
 				graph_avg += y
 			else:
