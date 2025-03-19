@@ -24,7 +24,7 @@ def gpioengine1():
 	menu2pos = [(444, 305)]
 	menu3pos = [(430, 93), (489, 58), (390, 55)]
 	menuSelectpos = [(379, 192), (376, 150), (377, 109), (389, 63), (400, 16)]
-	menuaipos = [(463, 138)]
+	menuaipos = [(389, 136)]
 	currentpos = []
 
 	GPIO.setup(40, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -42,7 +42,7 @@ def gpioengine1():
 		elif lastmenu == str(menuSelect):
 			currentpos = menuSelectpos
 		elif lastmenu == str(menuai):
-			currentpos = [(410, 123)]
+			currentpos = menuaipos
 
 
 
@@ -79,7 +79,7 @@ def gpioengine2():
 	menu2pos = [(444, 305)]#
 	menu3pos = [(390, 55), (489, 58), (430, 93)]#
 	menuSelectpos = [(400, 16), (389, 63), (377, 109), (376, 150), (379, 192)]#
-	menuaipos = [(463, 138)]#
+	menuaipos = [(389, 136)]#
 	currentpos = []
 	
 	'''
@@ -108,7 +108,7 @@ def gpioengine2():
 		elif lastmenu == str(menuSelect):
 			currentpos = menuSelectpos
 		elif lastmenu == str(menuai):
-			currentpos = [(410, 123)]
+			currentpos = menuaipos
 		
 
 		if GPIO.input(38) == GPIO.HIGH and press == False:

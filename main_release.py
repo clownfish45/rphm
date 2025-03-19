@@ -388,7 +388,7 @@ while True:							 # Event Loop
 		if readmode == "temperature" and x != 9999:
 			allgraph = False
 			#y = randint(20,100)
-			y = round(max30105.get_temperature(), 2) + 2
+			y = round(max30105.get_temperature(), 2) + 4
 			if graph_avg == 0:
 				graph_avg += y
 			else:
@@ -402,7 +402,8 @@ while True:							 # Event Loop
 			#y = randint(20,100)
 			y = read_hr()
 			if y == -1:
-				window["_STATS_"].update("bad reading: press your finger against the sensor and/or clean the surfaces!")
+				#window["_STATS_"].update("bad reading: press your finger against the sensor and/or clean the surfaces!")
+				window["_STATS_"].update(f"current:{round(y, 2)}, average:{round(graph_avg, 2)}")
 				window.refresh()
 			else:
 				if graph_avg == 0:
@@ -418,7 +419,8 @@ while True:							 # Event Loop
 			#y = randint(20,100)
 			y = read_bloodoxygen()
 			if y == -1:
-				window["_STATS_"].update("bad reading: press your finger against the sensor and/or clean the surfaces!")
+				#window["_STATS_"].update("bad reading: press your finger against the sensor and/or clean the surfaces!")
+				window["_STATS_"].update(f"current:{round(y, 2)}, average:{round(graph_avg, 2)}")
 				window.refresh()
 			else:
 				if graph_avg == 0:
@@ -432,7 +434,7 @@ while True:							 # Event Loop
 		elif readmode == "all":
 			if graphStage == 0:
 				#y = randint(20,100)
-				y = round(max30105.get_temperature(), 2) + 5
+				y = round(max30105.get_temperature(), 2) + 4
 				if temp_avg == 0:
 					temp_avg += y
 				else:
@@ -444,7 +446,8 @@ while True:							 # Event Loop
 				#y = randint(20,100)
 				y = read_hr()
 				if y == -1:
-					window["_STATS_"].update("bad reading: press your finger against the sensor and/or clean the surfaces!")
+					#window["_STATS_"].update("bad reading: press your finger against the sensor and/or clean the surfaces!")
+					window["_STATS_"].update(f"current:{round(y, 2)}, average:{round(hr_avg, 2)}")
 					window.refresh()
 				else:
 					if hr_avg == 0:
@@ -458,7 +461,8 @@ while True:							 # Event Loop
 				#y = randint(20,100)
 				y = read_bloodoxygen()
 				if y == -1:
-					window["_STATS_"].update("bad reading: press your finger against the sensor and/or clean the surfaces!")
+					window["_STATS_"].update(f"current:{round(y, 2)}, average:{round(bloodoxygen_avg, 2)}")
+					#window["_STATS_"].update("bad reading: press your finger against the sensor and/or clean the surfaces!")
 					window.refresh()
 				else:
 					if bloodoxygen_avg == 0:
@@ -488,7 +492,7 @@ while True:							 # Event Loop
 			#hr = randint(80,120)
 
 			if y != 0.0 and y != 0:
-				window["_GRAPH_"].DrawLine((lastx+2, lasty * 2), (x+2, y * 2), width=1)
+				window["_GRAPH_"].DrawLine((lastx+2, lasty), (x+2, y), width=1)
 				window.refresh()
 				amount += 1
 			else:
@@ -512,7 +516,7 @@ while True:							 # Event Loop
 			#hr.on_beat(storeheartbeat, average_over = 4) <---test only
 
 			if y != 0.0 and y != 0:
-				window["_GRAPH_"].DrawLine((lastx+2, lasty * 2), (x+2, y * 2), width=1)
+				window["_GRAPH_"].DrawLine((lastx+2, lasty), (x+2, y), width=1)
 				window["_GRAPH_"].Move(-GRAPH_STEP_SIZE, 0)
 				window.refresh()
 				amount += 1
