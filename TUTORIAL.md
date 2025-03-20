@@ -8,7 +8,7 @@
 
 5. Download the software from https://www.github.com/clownfish45/theApplePi/tree/main , create a folder named "theApplePi" in the "Documents" folder and put the software there. Then open the terminal, and type “pip install -r /home/theapplepi/Documents/theApplePi/requirements.txt --break-system-packages”
 
-6. Switch off the raspberrypi. Put the sensors and two buttons on the 3d printed board in this order for right-handed people - fingerprint sensor, button, button, max30101. Using the pinout document, connect the wires of the sensors and buttons to respective pins on the ribbon cable as outlined in the pinout using the wires from the camjam edukit.
+6. Switch off the raspberrypi. Put the sensors and two buttons on the 3d printed board in this order for right-handed people - fingerprint sensor, button, button, max30101. Using the pinout document, connect the wires of the sensors and buttons to respective pins on the ribbon cable as outlined in PINOUT.md using the wires from the camjam edukit.
 
 7. Switch on the raspberrypi. Go into terminal and type "sudo nano /etc/xdg/autostart/display.desktop". Paste in the following: 
 [Desktop Entry]
