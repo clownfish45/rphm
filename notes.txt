@@ -1,3 +1,0 @@
-if DDB.at("log").exists() == False:
-    newDbVal[timeToday()][str(preventIndex)] = {"temperature1" : [], "temperature2" : [], "heartbeat" : []}
-	DDB.at("log").create(hello)
