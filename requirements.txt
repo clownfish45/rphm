@@ -1,0 +1,8 @@
+adafruit_fingerprint
+RPi.GPIO
+PySimpleGUI==4.60.5
+max30105
+cohere
+serial
+dictdatabase
+pyautogui
