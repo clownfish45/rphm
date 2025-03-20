@@ -1,1 +1,0 @@
-['_LOGIN1_', '_LOGINPROMPT_', '_LOGIN2_', '_EXIT_']
