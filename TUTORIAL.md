@@ -2,7 +2,7 @@
 
 2. 3D Print the 3D models named rphm_model.stl, put the max30101 sensor into the flat 3d printed sensor holder. Put the two buttons into holders with a wall inside
 
-3. Attach the ribbon to the gpio headers on the raspberrypi 4 model b. File down the connector connected to the raspberry pi and mount the display. Screw the display onto the 3D printed plate and install the plate into the main box. Install raspberry pi os on an sd card and insert it inside the raspberry pi. Make sure the os works. Male a user called theapplepi
+3. Attach the ribbon to the gpio headers on the raspberrypi 4 model b. File down the connector connected to the raspberry pi and mount the display. Screw the display onto the 3D printed plate and install the plate into the main box. Install raspberry pi os on an sd card and insert it inside the raspberry pi. Make sure the os works. Male a user called theapplepi. In the terminal run the following command: "sudo apt-get install python3 python3-pip"
 
 4. Click on the raspberry pi logo at the top left of your desktop. Then click on preferences and then click on raspberry pi configuration. Go to interfaces, and enable spi, i2c, serial port and 1-wire. Reboot
 
