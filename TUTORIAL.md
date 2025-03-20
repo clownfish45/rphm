@@ -1,4 +1,4 @@
-1. Get a raspberry pi 4 and following parts: https://thepihut.com/products/3-2-ips-hdmi-lcd-display-for-raspberry-pi-480x800 , https://thepihut.com/products/camjam-edukit-2-sensors , Tactile Switch Buttons (12mm square, 6mm tall) x 10 pack , MAX30101 Breakout - Heart Rate, Oximeter, https://thepihut.com/products/gpio-ribbon-cable-for-raspberry-pi-model-a-b-pi-2-pi-3, Smoke Sensor https://thepihut.com/products/basic-fingerprint-sensor-with-socket-header-cable, Solder the headers onto the max30101 sensor
+1. Get a raspberry pi 4 and following parts: https://thepihut.com/products/3-2-ips-hdmi-lcd-display-for-raspberry-pi-480x800 , https://thepihut.com/products/max30105-breakout-heart-rate-oximeter-smoke-sensor , https://thepihut.com/products/camjam-edukit-2-sensors, https://thepihut.com/products/gpio-ribbon-cable-for-raspberry-pi-model-a-b-pi-2-pi-3, https://thepihut.com/products/basic-fingerprint-sensor-with-socket-header-cable, Solder the headers onto the max30101 sensor
 
 2. 3D Print the 3D models named rphm_model.stl, put the max30101 sensor into the flat 3d printed sensor holder. Put the two buttons into holders with a wall inside
 
