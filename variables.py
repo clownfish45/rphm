@@ -34,7 +34,7 @@ GRAPH_STEP_SIZE = 15
 amount = 0
 lasty = y = x = lastx = highesty = 0
 preventIndex = 0 		#index that shows the recording number
-maxUserCount = 10
+maxUserCount = 50
 bpm  = float()
 avg_bpm = float()
 
