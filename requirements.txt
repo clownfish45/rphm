@@ -3,6 +3,6 @@ RPi.GPIO
 PySimpleGUI==4.60.5
 max30105
 cohere
-serial
+pyserial
 dictdatabase
 pyautogui
