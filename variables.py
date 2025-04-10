@@ -16,7 +16,7 @@ import hrcalc
 
 uart = serial.Serial("/dev/ttyS0", baudrate=57600, timeout=1)
 
-finger = adafruit_fingerprint.Adafruit_Fingerprint(uart)
+finger = adafruit_fingerprint.AdafruitFingerprint(uart)
 
 font = "Silkscreen 26"
 sg.change_look_and_feel("DarkBlue14")
