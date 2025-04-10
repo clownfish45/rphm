@@ -21,7 +21,7 @@ def sleepAndDetect(dir):
     menuai = ["_COHERE_", "_COHEREBACK_"]
 
     uart = serial.Serial("/dev/ttyS0", baudrate=57600, timeout=1)
-    finger = adafruit_fingerprint.Adafruit_Fingerprint(uart)
+    finger = adafruit_fingerprint.AdafruitFingerprint(uart)
     sleep = False
     lastmenu = str()
     while True:
