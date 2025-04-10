@@ -1,4 +1,4 @@
-adafruit_fingerprint
+adafruit-circuitpython-fingerprint
 RPi.GPIO
 PySimpleGUI==4.60.5
 max30105
