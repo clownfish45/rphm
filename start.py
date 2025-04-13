@@ -5,6 +5,7 @@ import time
 import serial
 import adafruit_fingerprint
 from threading import Thread
+import pyautogui
 
 
 
@@ -67,8 +68,10 @@ GPIO.setwarnings(False)
 
 with open(f"{dir}last/lastmenu.txt", "w") as fo:
     fo.write("")
-
-os.system("xrandr -o right")# <---uncomment
+tup = tuple(pyautogui.size())
+if tup == (480, 800) or tup == (800, 480):
+    os.system("xrandr -o right")
+#os.system("xrandr -o right")# <---uncomment
 #os.system(f"lxterminal -e python3 {dir}main_alphav2.py")
 Thread(target = sleepAndDetect, daemon = True, args=(dir,)).start()
 os.system(f"python3 {dir}main_release.py")
