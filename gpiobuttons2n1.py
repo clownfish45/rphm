@@ -24,7 +24,7 @@ def gpioengine1():
 	menu2pos = [(444, 305)]
 	menu3pos = [(430, 93), (489, 58), (390, 55)]
 	menuSelectpos = [(379, 192), (376, 150), (377, 109), (389, 63), (400, 16)]
-	menuaipos = [(389, 136)]
+	menuaipos = [(447, 352)]
 	currentpos = []
 
 	GPIO.setup(40, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -79,7 +79,7 @@ def gpioengine2():
 	menu2pos = [(444, 305)]#
 	menu3pos = [(390, 55), (489, 58), (430, 93)]#
 	menuSelectpos = [(400, 16), (389, 63), (377, 109), (376, 150), (379, 192)]#
-	menuaipos = [(389, 136)]#
+	menuaipos = [(447, 352)]#
 	currentpos = []
 	
 	'''
@@ -162,3 +162,7 @@ graphend
 ai
 (409, 217)
 '''
+
+
+#Point(x=447, y=352)
+#(447, 352)

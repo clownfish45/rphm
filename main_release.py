@@ -3,6 +3,7 @@ from variables import *
 from threading import Thread
 from random import randint
 import dictdatabase as DDB
+import textwrap
 import sys
 
 print("\n\n\n\n new")
@@ -225,7 +226,7 @@ while True:							 # Event Loop
 		'''
 	elif event == "_TEMP_":
 		graphactive = True
-		preventDel()
+		#preventDel()
 		menu(menu2)
 		scale()
 		readmode = "temperature"
@@ -234,7 +235,7 @@ while True:							 # Event Loop
 
 	elif event == "_HR_":
 		graphactive = True
-		preventDel()
+		#preventDel()
 		menu(menu2)
 		scale()
 		readmode = "heartbeat"
@@ -243,7 +244,7 @@ while True:							 # Event Loop
 
 	elif event == "_BLOODOXYGEN_":
 		graphactive = True
-		preventDel()
+		#preventDel()
 		menu(menu2)
 		scale()
 		readmode = "bloodoxygen"
@@ -255,7 +256,7 @@ while True:							 # Event Loop
 
 	elif event == "_ALL_":
 		graphactive = True
-		preventDel()
+		#preventDel()
 		menu(menu2)
 		scale()
 		readmode = "all"
@@ -293,15 +294,15 @@ while True:							 # Event Loop
 					prompt = f"The latest temperature mesurements of my body in degrees C were {temp}. \
 					The heartbeat rate per minute were {hr}\
 					The blood oxygen concentration was {bloodoxygen}\
-					What are your opinions on the temperatures and what do you\
-					suggest the person should do to improve them? Also, what are your opinions on the heartbeat of the person? Answer in one sentence",
+					Give medical advice based on these statistics. Answer in one sentence",
 				)
 				response = list(response)
 				coheretext = str(response[0])
 				print(coheretext)
-				
-				#window["_COHERE_"].update(coheretext)
-				sg.popup_timed(coheretext)
+				upd_coheretext = textwrap.fill(coheretext, 58)
+				window["_COHERE_"].update(upd_coheretext)
+				window.refresh()
+				#sg.popup_timed(coheretext)
 				once = False
 			except:
 				print(dbval)
@@ -337,7 +338,7 @@ while True:							 # Event Loop
 
 
 			lastx = lasty = y = x = 0
-			preventIndex += 1
+			#preventIndex += 1
 			#jsonChange("w", hello, jsondircache)
 			menu(menu1)
 		if x >= 180 and allgraph == False:
@@ -523,7 +524,7 @@ while True:							 # Event Loop
 				x -= GRAPH_STEP_SIZE
 			else:
 				pass
-			preventDel()
+			#preventDel()
 			print(hello[timeReplaceAppend()])
 			'''test only
 			timeReplaceAppend(hello[timeReplaceAppend()][str(preventIndex)]["temperature1"], max30105.get_temperature())

@@ -248,7 +248,7 @@ layout = [
 	[sg.Graph(canvas_size=(40, 200), graph_bottom_left=(0, 0), graph_top_right=(8, 200), background_color = graphcol, key = "_GRAPHCANVAS_", visible = False), sg.Graph(GRAPH_SIZE, (0,0), GRAPH_SIZE, key="_GRAPH_", background_color = graphcol, visible = False),],
 	[sg.Text(text="", key = "_STATS_", visible = False)],
 	[sg.Button("GO BACK", key = "_BACK_", visible = False, size = 100)],
-	[sg.Text(coheretext, key = "_COHERE_", visible = False, auto_size_text = True, size = (700, 5))],
+	[sg.Text("", key = "_COHERE_", visible = False, auto_size_text = False, size = (700, 15), expand_y=True, font="Silkscreen 26")],#expand_x=True, 
 	[sg.Button("GO BACK", key = "_COHEREBACK_", visible = False, size = 25), sg.Button("DIFFERENT reading", key = "_READING_", visible = False, size = 25)],
 	[sg.Button("temperature", key = "_TEMP_", visible = False, size = 100)],
 	[sg.Button("heart rate", key = "_HR_", visible = False, size = 100)],
@@ -367,13 +367,13 @@ def get_fingerprint():
 		pass
 	#print("Templating...")
 	if finger.image_2_tz(1) != adafruit_fingerprint.OK:
-		vs.tempText = "Failed to identify finger! Clean the sensor, check the wiring and try again!"
+		vs.tempText = "Failed to identify finger! Clean the sensor!"
 		time.sleep(2)
 		return False
 		
 	#print("Searching...")
 	if finger.finger_search() != adafruit_fingerprint.OK:
-		vs.tempText = "The fingerprint could not be found in the database. Create a new user!"
+		vs.tempText = "The fingerprint could not be found in the database."
 		time.sleep(2)
 		return False
 	vs.tempText = f"Found user! (user{finger.finger_id})"

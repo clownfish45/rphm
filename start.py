@@ -67,7 +67,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 with open(f"{dir}last/lastmenu.txt", "w") as fo:
-    fo.write("")
+    fo.write("") 
 tup = tuple(pyautogui.size())
 if tup == (480, 800) or tup == (800, 480):
     os.system("xrandr -o right")
